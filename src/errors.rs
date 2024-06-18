@@ -58,10 +58,6 @@ impl std::fmt::Display for Error {
 }
 
 impl std::error::Error for Error {
-    fn description(&self) -> &str {
-        "Self Update Error"
-    }
-
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         Some(match *self {
             Error::Io(ref e) => e,
@@ -72,6 +68,10 @@ impl std::error::Error for Error {
             Error::Signature(ref e) => e,
             _ => return None,
         })
+    }
+
+    fn description(&self) -> &str {
+        "Self Update Error"
     }
 }
 

@@ -301,6 +301,12 @@ impl UpdateBuilder {
         self
     }
 
+    /// set the optional fast git proxy url
+    pub fn with_fast_git_proxy(&mut self, fast_git_proxy: &str) -> &mut Self {
+        self.fast_git_proxy = Some(fast_git_proxy.to_owned());
+        self
+    }
+
     /// Set the current app version, used to compare against the latest available version.
     /// The `cargo_crate_version!` macro can be used to pull the version from your `Cargo.toml`
     pub fn current_version(&mut self, ver: &str) -> &mut Self {
@@ -374,8 +380,8 @@ impl UpdateBuilder {
     /// The path provided should be:
     ///
     /// ```
-    /// # use self_update::backends::github::Update;
-    /// # fn run() -> Result<(), Box<::std::error::Error>> {
+    /// # use self_github_update_enhanced::backends::github::Update;
+    /// # fn run() -> Result<(), Box< dyn ::std::error::Error>> {
     /// Update::configure()
     ///     .bin_path_in_archive("bin/myapp")
     /// #   .build()?;
@@ -676,7 +682,7 @@ fn api_headers(auth_token: &Option<String>) -> Result<header::HeaderMap> {
     let mut headers = header::HeaderMap::new();
     headers.insert(
         header::USER_AGENT,
-        "rust-reqwest/self-update"
+        "rust-reqwest/self-update-enhanced"
             .parse()
             .expect("github invalid user-agent"),
     );

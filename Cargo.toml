@@ -25,6 +25,7 @@ log = { version = "0.4" }
 urlencoding = { version = "2" }
 self-replace = { version = "1" }
 zipsign-api = { version = "0.1", default-features = false, optional = true }
+http = "0.2.12"
 
 [features]
 default = ["client"]

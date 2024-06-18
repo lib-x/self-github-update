@@ -45,45 +45,23 @@ There's also an equivalent example for gitlab:
 which runs something roughly equivalent to:
 
 ```rust
-use self_update::cargo_crate_version;
+* use self_github_update_enhanced::cargo_crate_version;
+*
+* fn update() -> Result<(), Box<dyn ::std::error::Error>> {
+*     let status = self_github_update_enhanced::backends::github::Update::configure()
+*         .repo_owner("jaemk")
+*         .repo_name("self_update")
+*         .bin_name("github")
+*         .show_download_progress(true)
+*         .current_version(cargo_crate_version!())
+*         .build()?
+*         .update()?;
+*     println!("Update status: `{}`!", status.version());
+*     Ok(())
+* }
+* ```
 
-fn update() -> Result<(), Box<::std::error::Error>> {
-    let status = self_update::backends::github::Update::configure()
-        .repo_owner("jaemk")
-        .repo_name("self_update")
-        .bin_name("github")
-        .show_download_progress(true)
-        .current_version(cargo_crate_version!())
-        .build()?
-        .update()?;
-    println!("Update status: `{}`!", status.version());
-    Ok(())
-}
-```
 
-Amazon S3, Google GCS, and DigitalOcean Spaces are also supported through the `S3` backend to check for new releases. Provided a `bucket_name`
-and `asset_prefix` string, `self_update` will look up all matching files using the following format
-as a convention for the filenames: `[directory/]<asset name>-<semver>-<platform/target>.<extension>`.
-Leading directories will be stripped from the file name allowing the use of subdirectories in the S3 bucket,
-and any file not matching the format, or not matching the provided prefix string, will be ignored.
-
-```rust
-use self_update::cargo_crate_version;
-
-fn update() -> Result<(), Box<::std::error::Error>> {
-    let status = self_update::backends::s3::Update::configure()
-        .bucket_name("self_update_releases")
-        .asset_prefix("something/self_update")
-        .region("eu-west-2")
-        .bin_name("self_update_example")
-        .show_download_progress(true)
-        .current_version(cargo_crate_version!())
-        .build()?
-        .update()?;
-    println!("S3 Update status: `{}`!", status.version());
-    Ok(())
-}
-```
 
 Separate utilities are also exposed (**NOTE**: the following example _requires_ the `archive-tar` feature,
 see the [features](#features) section above). The `self_replace` crate is re-exported for convenience:
@@ -91,7 +69,7 @@ see the [features](#features) section above). The `self_replace` crate is re-exp
 ```rust
 # #[cfg(feature = "archive-tar")]
 fn update() -> Result<(), Box<::std::error::Error>> {
-    let releases = self_update::backends::github::ReleaseList::configure()
+    let releases = self_github_update_enhanced::backends::github::ReleaseList::configure()
         .repo_owner("jaemk")
         .repo_name("self_update")
         .build()?
@@ -130,10 +108,12 @@ fn update() -> Result<(), Box<::std::error::Error>> {
 pub use self_replace;
 pub use tempfile::TempDir;
 
+
 #[cfg(feature = "compression-flate2")]
 use either::Either;
 use indicatif::{ProgressBar, ProgressStyle};
 use reqwest::header;
+
 #[cfg(feature = "client-impersonate")]
 use reqwest_impersonate as reqwest;
 use std::cmp::min;
@@ -674,9 +654,9 @@ impl Download {
     pub fn download_to<T: io::Write>(&self, mut dest: T) -> Result<()> {
         use io::BufRead;
         let mut headers = self.headers.clone();
-        if !headers.contains_key(header::USER_AGENT) {
+        if !headers.contains_key(header::USER_AGENT.as_str()) {
             headers.insert(
-                header::USER_AGENT,
+                header::USER_AGENT.as_str(),
                 "rust-reqwest/self-update"
                     .parse()
                     .expect("invalid user-agent"),
