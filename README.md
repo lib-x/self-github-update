@@ -10,6 +10,9 @@
 
 - `default`: 默认启用 `client` 特性。
 
+### github 选项
+- 可以配置fast git proxy 解决下载缓慢问题
+
 ### 客户端特性
 
 - `client`: 启用 `reqwest` 库，用于发送网络请求。

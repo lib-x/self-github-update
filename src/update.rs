@@ -1,4 +1,5 @@
 use reqwest::header;
+use reqwest::header::HeaderMap;
 #[cfg(feature = "client-impersonate")]
 use reqwest_impersonate as reqwest;
 use std::fs;
@@ -230,7 +231,7 @@ pub trait ReleaseUpdate {
         let mut download = Download::from_url(&target_asset.download_url);
         let mut headers = self.api_headers(&self.auth_token())?;
         headers.insert(header::ACCEPT, "application/octet-stream".parse().unwrap());
-        download.set_headers(headers);
+        download.set_headers(headers.into());
         download.show_progress(self.show_download_progress());
 
         download.progress_template = self.progress_template();
