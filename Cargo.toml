@@ -1,6 +1,6 @@
 [package]
-name = "self-github-update"
-version = "0.39.0"
+name = "self-github-update-enhanced"
+version = "0.39.1"
 description = "Self updates for standalone executables (Github)"
 license = "MIT"
 edition = "2021"
