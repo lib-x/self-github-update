@@ -1,7 +1,9 @@
 [package]
 name = "self-github-update-enhanced"
 version = "0.39.1"
-description = "Self updates for standalone executables (Github)"
+authors = ["czyt <go-x@qq.com>"]
+description = "Self updates for standalone executables (Github) with fast git proxy support"
+repository = "https://github.com/lib-x/self-github-update-enhanced"
 license = "MIT"
 edition = "2021"
 

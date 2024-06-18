@@ -1,6 +1,8 @@
-# self-github-update 使用文档
+# self-github-update-enhanced 使用文档
 
-`self-github-update` 是一个用于 Rust 可执行文件自我更新的库，特别适用于 Github 上的项目。以下是一些可用的特性和它们的描述：
+`self-github-update-enhanced` 是一个用于 Rust 可执行文件自我更新的库，特别适用于 Github 上的项目。
+基于`self-github-update`修改而来。
+以下是一些可用的特性和它们的描述：
 
 ## 特性
 
@@ -32,9 +34,9 @@
 
 ## 如何使用
 
-在你的 `Cargo.toml` 文件中，添加 `self-github-update` 作为依赖，并选择你需要的特性：
+在你的 `Cargo.toml` 文件中，添加 `self-github-update-enhanced` 作为依赖，并选择你需要的特性：
 
 ```toml
 [dependencies]
-self-github-update = { version = "0.39.0", features = ["archive-zip"] }
+self-github-update-enhanced = { version = "0.39.1", features = ["archive-zip"] }
 ```
