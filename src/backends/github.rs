@@ -214,7 +214,7 @@ impl ReleaseList {
             if let Some(fast_git_proxy) = &self.fast_git_proxy {
                 let mut release = Release::from_release(v)?;
                 release.assets.iter_mut().for_each(|asset| {
-                    asset.download_url = format!("{}{}", fast_git_proxy, asset.download_url);
+                    asset.download_url = format!("{}/{}", fast_git_proxy, asset.download_url);
                 });
                 Ok(release)
             } else {
